@@ -1,0 +1,324 @@
+<html>
+    <head>
+        <title>Dining Philosopher Problem</title>
+    </head>
+    <body >
+        <div>
+        <h1>Dining philosophers problem</h1>
+        <hr/>
+        <p>Article <a href="" title="Discuss improvement to the content page "> Talk</a></p>
+         <!-- <p> Article <acronym title="Discuss improvement to the content page"> <span style="color: rgb(10, 171, 225);">Talk</span></acronym></p> -->
+        <hr/>
+    </div>
+        <p>From Wikipedia, the free encyclopedia</p>
+        
+        <p>In <a href="" title="Computer science is the study of computation, information, and automation. Computer science spans theoretical disciplines to applied disciplines. Though more often considered an academic discipline, computer science is closely related to computer programming."  style="text-decoration: none;">Computer Science</a>the <b> dining philosophers problem </b>is an example problem often used in <a href="" title=""  style="text-decoration: none;" title="In computer science, concurrency is the ability of different parts or units of a program, algorithm, or problem to be executed out-of-order or in partial order, without affecting the outcome. This allows for parallel execution of the concurrent units, which can significantly improve overall speed of the executio">concurrent </a> algorithm design to illustrate <a href="" title="In computer science, synchronization refers to one of two distinct but related concepts: synchronization of processes, and synchronization of data. Process synchronization refers to the idea that multiple processes are to join up or handshake at a certain point, in order to reach an agreement or commit to a certain sequence of action. Data synchronization refers to the idea of keeping multiple copies of a dataset in coherence with one another, or to maintain data integrity. Process synchronization primitives are commonly used to implement data synchronization.
+
+            ">synchronization</a> issues and techniques for resolving them.</p>
+
+        <p>It was originally formulated in 1965 by <a href=""  style="text-decoration: none;" title="Edsger Wybe Dijkstra was a Dutch computer scientist, programmer, software engineer, and science essayist."> Edsger Dijkstra </a>as a student exam exercise, presented in terms of computers <a href=""  style="text-decoration: none;" title="In computer science, resource contention is a conflict over access to a shared resource such as random access memory, disk storage, cache memory, internal buses or external network devices. A resource experiencing ongoing contention can be described as oversubscribed.">competing for access </a>to <a href="" title="A tape drive is a data storage device that reads and writes data on a magnetic tape. Magnetic-tape data storage is typically used for offline, archival data storage. Tape media generally has a favorable unit cost and a long archival stability."  style="text-decoration: none;"></a>tape drive</a> peripherals. Soon after,<a href=""  style="text-decoration: none;" title="Sir Charles Antony Richard Hoare is a British computer scientist who has made foundational contributions to programming languages, algorithms, operating systems, formal verification, and concurrent computing. His work earned him the Turing Award, usually regarded as the highest d">Tony Hoare</a>  gave the problem its present form. <a href=""  style="text-decoration: none;" title="J. Díaz; I. Ramos (1981). Formalization of Programming Concepts: International Colloquium, Peniscola, Spain, April 19–25, 1981. Proceedings. Birkhäuser. pp. 323 , 326. ISBN 978-3-540-10699-9">[1][2][3][4]</a> </p>
+
+        <img src="An_illustration_of_the_dining_philosophers_problem.png" alt="dining philosopher" width="250px" align="right"  >
+        <p><span style="font-size: large;"><b>Problems Statment</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+       <hr/>
+       <p>Five <a href="" title="Philosophy is the systematized study of general and fundamental questions, such as those concerning existence, reason, knowledge, values, mind, and language. Philosophical methods include questioning, critical discussion, rational argument, and systematic presentation."  style="text-decoration: none;">philosophers</a>  dine together at the same table. Each philosopher has their own place at the table. There is a fork between each plate. The dish served is a kind of <a href="" title="Spaghetti is a long, thin, solid, cylindrical pasta. It is a staple food of traditional Italian cuisine. Like other pasta, spaghetti is made of milled wheat, water, and sometimes enriched with vitamins and minerals. Italian spaghetti is typically made from durum-wheat semolina. "  style="text-decoration: none;">spaghetti</a>  which has to be eaten with two forks. Each philosopher can only alternately think and eat. Moreover, a philosopher can only eat their spaghetti when they have both a left and right fork. Thus two forks will only be available when their two nearest neighbors are thinking, not eating. After an individual philosopher finishes eating, they will put down both forks. The problem is how to design a regimen (a <a href=""  style="text-decoration: none;" title="In computer science, concurrency is the ability of different parts or units of a program, algorithm, or problem to be executed out-of-order or in partial order, without affecting the outcome. This allows for parallel execution of the concurrent units, which can significantly improve">concurrent</a>  algorithm) such that no philosopher will starve; i.e., each can forever continue to alternate between eating and thinking, assuming that no philosopher can know when others may want to eat or think (an issue of <a href=""  style="text-decoration: none;" title="In economics and game theory, complete information is an economic situation or game in which knowledge about other market participants or players is available to all participants. The utility functions, payoffs, strategies and ">incomplete information)</a> .</p>
+       <p><span style="font-size: large;"><b>Problems</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+       <p>The problem was designed to illustrate the challenges of avoiding <a href="" title="In concurrent computing, deadlock is any situation in which no member of some group of entities can proceed because each waits for another member, including itself, to take action, such as sending a message or, more commonly, releasing a lock. Deadlocks are a common problem in multiprocessing systems, parallel computing, and distributed sy">deadlock</a>, a system state in which no progress is possible. To see that a proper solution to this problem is not obvious, consider a proposal in which each philosopher is instructed to behave as follows:</p>
+       <ul>
+        <li>think unless the left fork is available; when it is, pick it up;</li>
+        <li>think unless the right fork is available; when it is, pick it up;</li>
+        <li>when both forks are held, eat for a fixed amount of time;</li>
+        <li>put the left fork down;</li>
+        <li>put the right fork down;</li>
+        <li>repeat from the beginning</li>
+       </ul>
+       <p>However, they each will think for an undetermined amount of time and may end up holding a left fork thinking, staring at the right side of the plate, unable to eat because there is no right fork, until they starve.</p>
+       <p> <a href="" title="In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work. Starvation may be caused by errors in a scheduling or mutual exclusion algorithm, but can also be caused by resource leaks, and can be intentionally caused via a denial-">Resource starvation</a>, <a href=""  style="text-decoration: none;" title="In computer science, mutual exclusion is a property of concurrency control, which is instituted for the purpose of preventing race conditions. It is the requirement that one thread of execution never enters a critical section while a concurrent thread of execution is already accessing said critical section,"> mutual exclusion</a> and <a href=""  style="text-decoration: none;" title="In concurrent computing, deadlock is any situation in which no member of some group of entities can proceed because each waits for another member, including itself, to take action, such as sending a message or, more commonly, releasing a lock. Deadlocks are a common problem in multiprocessing sys">livelock</a> are other types of sequence and access problem.</p>
+       <p><span style="font-size: large;"><b>Solution</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+       <hr>
+       <P><b>Dijkstra's solution</b><br><br>Dijkstra's solution uses one <a href="" title="In computer science, a lock or mutex is a synchronization primitive: a mechanism that enforces limits on access to a resource when there are many threads of execution. A lock is designed to enforce a mutual exclusion concurrency control policy, and with a variety of possible methods there exists multiple"  style="text-decoration: none;">mutex</a>, one <a href=""  style="text-decoration: none;" title="In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of synchronization primitive. A trivial semaphore ">semaphore</a> per philosopher and one <a href=""  style="text-decoration: none;" title="A state variable is one of the set of variables that are used to describe the mathematical state of a dynamical system. Intuitively, the state of a system describes enough about the system to determine its future behaviour in the absence of any external forces affecting the system. Models that consist of coupled first-order differential equations are said to be in">state variable</a> per philosopher. This solution is more complex than the resource hierarchy solution. <a href="" style="text-decoration: none;"  title="Tanenbaum, Andrew S. (2006), Operating Systems - Design and Implementation, 3rd edition [Chapter: 2.3.1 The Dining Philosophers Problem], Pearson Education, Inc.">[5][6]</a>This is a C++20 version of Dijkstra's solution with Tanenbaum's changes: </P>
+       <div>
+        <p>#include <chrono><br>
+            #include <iostream><br>
+            #include <mutex><br>
+            #include <random><br>
+            #include <semaphore><br>
+            #include <thread><br>
+            <br>
+            constexpr const size_t N = 5;  // number of philosophers (and forks)
+            enum class State 
+            <br>
+            {<br>
+                THINKING = 0,  // philosopher is THINKING<br>
+                HUNGRY = 1,    // philosopher is trying to get forks<br>
+                EATING = 2,    // philosopher is EATING<br>
+            };<br>
+            
+            size_t inline left(size_t i) <br>
+            { <br> 
+                // number of the left neighbor of philosopher i, for whom both forks are available<br>
+                return (i - 1 + N) % N; // N is added for the case when  i - 1 is negative<br>
+            }<br>
+            
+            size_t inline right(size_t i)<br> 
+            { <br> 
+                // number of the right neighbour of the philosopher i, for whom both forks are available<br>
+                return (i + 1) % N;<br>
+            }<br>
+            
+            State state[N];  // array to keep track of everyone'both_forks_available state<br>
+            
+            std::mutex critical_region_mtx;  // mutual exclusion for critical regions for<br> 
+            // (picking up und putting down the forks)<br>
+            std::mutex output_mtx;  // for synchronized cout (printing THINKING/HUNGRY/EATING status)<br>
+            
+            // array of binary semaphors, one semaphore per philosopher.<br>
+            // Acquired semaphore means philosopher i has acquired (blocked) two forks<br>
+            std::binary_semaphore both_forks_available[N]<br>
+            {
+                std::binary_semaphore{0}, std::binary_semaphore{0},<br>
+                std::binary_semaphore{0}, std::binary_semaphore{0},<br>
+                std::binary_semaphore{0}<br>
+            };<br>
+            
+            size_t my_rand(size_t min, size_t max) <br>
+            {<br>
+                static std::mt19937 rnd(std::time(nullptr));<br>
+                return std::uniform_int_distribution<>(min, max)(rnd);<br>
+            }<br>
+            
+            void test(size_t i) <br>
+            // if philosopher i is hungry and both neighbours are not eating then eat<br>
+            { <br>
+                // i: philosopher number, from 0 to N-1<br>
+                if (state[i] == State::HUNGRY &&<br>
+                    state[left(i)] != State::EATING &&<br>
+                    state[right(i)] != State::EATING) <br>
+                {<br>
+                    state[i] = State::EATING;<br>
+                    both_forks_available[i].release(); // forks are no longer needed for this eat session<br>
+                }<br>
+            }<br>
+            
+            void think(size_t i) <br>
+            {
+                size_t duration = my_rand(400, 800);<br>
+                {<br>
+                    std::lock_guard<std::mutex> lk(output_mtx); // critical section for uninterrupted print<br>
+                    std::cout << i << " is thinking " << duration << "ms\n";<br>
+                }<br>
+                std::this_thread::sleep_for(std::chrono::milliseconds(duration));<br>
+            }<br>
+            
+            void take_forks(size_t i)<br>
+            {<br>
+                {<br>
+                    std::lock_guard<std::mutex> lk{critical_region_mtx};  // enter critical region<br>
+                    state[i] = State::HUNGRY;  // record fact that philosopher i is State::HUNGRY<br>
+                    {<br>
+                        std::lock_guard<std::mutex> lk(output_mtx); // critical section for uninterrupted print<br>
+                        std::cout << "\t\t" << i << " is State::HUNGRY\n";<br>
+                    }<br>
+                    test(i);                        // try to acquire (a permit for) 2 forks<br>
+                }                                   // exit critical region<br>
+                both_forks_available[i].acquire();  // block if forks were not acquired<br>
+            }<br>
+            
+            void eat(size_t i)<br>
+            {<br>
+                size_t duration = my_rand(400, 800);<br>
+                {<br>
+                    std::lock_guard<std::mutex> lk(output_mtx); // critical section for uninterrupted print<br>
+                    std::cout << "\t\t\t\t" << i << " is eating " << duration << "ms\n";<br>
+                }<br>
+                std::this_thread::sleep_for(std::chrono::milliseconds(duration));<br>
+            }<br>
+            
+            void put_forks(size_t i) <br>
+            { <br>
+               
+                std::lock_guard<std::mutex> lk{critical_region_mtx};    // enter critical region<br>
+                state[i] = State::THINKING;  // philosopher has finished State::EATING<br>
+                test(left(i));               // see if left neighbor can now eat<br>
+                test(right(i));             // see if right neighbor can now eat<br>
+                                                // exit critical region by exiting the function<br>
+            }
+            <br>
+            void philosopher(size_t i)<br>
+            {  <br>
+                while (true) <br>
+                {                         // repeat forever<br>
+                    think(i);             // philosopher is State::THINKING<br>
+                    take_forks(i);        // acquire two forks or block<br>
+                    eat(i);               // yum-yum, spaghetti<br>
+                    put_forks(i);         // put both forks back on table and check if neighbours can eat<br>
+                }<br>
+            }<br>
+            
+            int main() {<br>
+                std::cout << "dp_14\n";<br>
+            
+                std::jthread t0([&] { philosopher(0); }); // [&] means every variable outside the ensuing lambda<br> 
+                std::jthread t1([&] { philosopher(1); }); // is captured by reference<br>
+                std::jthread t2([&] { philosopher(2); });<br>
+                std::jthread t3([&] { philosopher(3); });<br>
+                std::jthread t4([&] { philosopher(4); });<br>
+
+                
+            }</p>
+            <br>
+            <p>The function test() and its use in take_forks() and put_forks() make the Dijkstra solution deadlock-free.</p>
+            <p><span style="font-size: large;"><b>Resource hierarchy solution</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+            <p>This solution assigns a <a href="" title="In mathematics, especially order theory, a partial order on a set is an arrangement such that, for certain pairs of elements, one precedes the other. The word partial is used to indicate that not every pair of elements needs to be comparable; that is, there may be pairs for which neither element precedes the other. Partial orders thus generalize total orders">partial order</a>  to the resources (the forks, in this case), and establishes the convention that all resources will be requested in order, and that no two resources unrelated by order will ever be used by a single unit of work at the same time. Here, the resources (forks) will be numbered 1 through 5 and each unit of work (philosopher) will always pick up the lower-numbered fork first, and then the higher-numbered fork, from among the two forks they plan to use. The order in which each philosopher puts down the forks does not matter. In this case, if four of the five philosophers simultaneously pick up their lower-numbered fork, only the highest-numbered fork will remain on the table, so the fifth philosopher will not be able to pick up any fork. Moreover, only one philosopher will have access to that highest-numbered fork, so he will be able to eat using two forks. This can intuitively be thought of as having one "left-handed" philosopher at the table, who -- unlike all the other philosophers -- takes his fork from the left first. <br> <br>While the resource hierarchy solution avoids deadlocks, it is not always practical, especially when the list of required resources is not completely known in advance. For example, if a unit of work holds resources 3 and 5 and then determines it needs resource 2, it must release 5, then 3 before acquiring 2, and then it must re-acquire 3 and 5 in that order. Computer programs that access large numbers of database records would not run efficiently if they were required to release all higher-numbered records before accessing a new record, making the method impractical for that purpose.<a href="" title="J. Díaz; I. Ramos (1981). Formalization of Programming Concepts: International Colloquium, Peniscola, Spain, April 19–25, 1981. Proceedings. Birkhäuser. pp. 323 , 326. ISBN 978-3-540-10699-9." >[2]</a> <br> <br>The resource hierarchy solution is not fair. If philosopher 1 is slow to take a fork, and if philosopher 2 is quick to think and pick its forks back up, then philosopher 1 will never get to pick up both forks. A fair solution must guarantee that each philosopher will eventually eat, no matter how slowly that philosopher moves relative to the others <br> <br>The following source code is a C++11 implementation of the resource hierarchy solution for five philosophers. The sleep_for() function simulates the time normally spent with business logic.[7] <br> <br>For GCC: compile with </p>
+             
+            <p>g++ src.cpp -std=c++11 -lpthread <br>
+                #include <iostream><br>
+                #include <chrono><br>
+                #include <mutex><br>
+                #include <thread><br>
+                #include <random><br>
+                #include <ctime><br>
+                
+                using namespace std;<br>
+                
+                int myrand(int min, int max) {<br>
+                  static mt19937 rnd(time(nullptr));<br>
+                  return uniform_int_distribution<>(min,max)(rnd);
+                }<br>
+                
+                void philosopher(int ph, mutex& ma, mutex& mb, mutex& mo) {<br>
+                  for (;;) {  // prevent thread from termination<br>
+                    int duration = myrand(200, 800);<br>
+                    {<br>
+                      // Block { } limits scope of lock<br>
+                      lock_guard<mutex> gmo(mo);<br>
+                      cout<<ph<<" thinks "<<duration<<"ms\n";<br>
+                    }<br>
+                    this_thread::sleep_for(chrono::milliseconds(duration));<br>
+                    {<br>
+                      lock_guard<mutex> gmo(mo);<br>
+                      cout<<"\t\t"<<ph<<" is hungry\n";<br>
+                    }<br>
+                    lock_guard<mutex> gma(ma);<br>
+                    // sleep_for() Delay before seeking second fork can be added here but should not be required.<br>
+                    lock_guard<mutex> gmb(mb);<br>
+                    duration = myrand(200, 800);<br>
+                    {<br>
+                      lock_guard<mutex> gmo(mo);<br>
+                      cout<<"\t\t\t\t"<<ph<<" eats "<<duration<<"ms\n";<br>
+                         
+                    }<br>
+                    this_thread::sleep_for(chrono::milliseconds(duration));<br>
+                  }<br>
+                }<br>
+                
+                int main() {<br>
+                  cout<<"dining Philosophers C++11 with Resource hierarchy\n";<br>
+                  mutex m1, m2, m3, m4, m5;   // 5 forks are 5 mutexes<br>
+                  mutex mo;           // for proper output<br>
+                  // 5 philosophers are 5 threads<br>
+                  thread t1([&] {philosopher(1, m1, m2, mo);});<br>
+                  thread t2([&] {philosopher(2, m2, m3, mo);});<br>
+                  thread t3([&] {philosopher(3, m3, m4, mo);}); <br> 
+                  thread t4([&] {philosopher(4, m4, m5, mo);}); <br> 
+                  thread t5([&] {philosopher(5, m1, m5, mo);});  // Force a resource hierarchy<br>
+                  t1.join();  // prevent threads from termination<br>
+                  t2.join();<br>
+                  t3.join();<br>
+                  t4.join();<br>
+                  t5.join();<br>
+                }</p>
+
+                <div>
+                    <p><span style="font-size: large;"><b>Arbitrator solution</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+                    <p>
+                        Another approach is to guarantee that a philosopher can only pick up both forks or none by introducing an arbitrator, e.g., a waiter. In order to pick up the forks, a philosopher must ask permission of the waiter. The waiter gives permission to only one philosopher at a time until the philosopher has picked up both of their forks. Putting down a fork is always allowed. The waiter can be implemented as a mutex. In addition to introducing a new central entity (the waiter), this approach can result in reduced parallelism: if a philosopher is eating and one of his neighbors is requesting the forks, all other philosophers must wait until this request has been fulfilled even if forks for them are still available.
+                    </p>
+                    <h3>Limiting the number of diners in the table</h3>
+                    <div style="display: flex; align-items: rigth; ">
+                    <p>
+                        A solution presented by <a href="" title="William Stallings is an American author. He has written computer science textbooks on operating systems, computer networks, computer organization, and cryptography.">William Stallings[8]</a> is to allow a maximum of n-1 philosophers to sit down at any time. The last philosopher would have to wait (for example, using a semaphore) for someone to finish dining before they "sit down" and request access to any fork. This guarantees at least one philosopher may always acquire both forks, allowing the system to make progress.       
+                    </p>
+                    <video   src="Deadlocks_and_the_Dining_Philosophers_Problem.webm.720p.vp9.webm" poster="An_illustration_of_the_dining_philosophers_problem.png" width="250px" height="250px"  controls loop ></video>
+            
+                    </div>
+                
+                   
+                    <p><span style="font-size: large;"><b>Chandy/Misra solution</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+
+                    <p>In 1984, <a href="" title="Kanianthra Mani Chandy is the Simon Ramo Professor of Computer Science at the California Institute of Technology (Caltech). He has been the Executive Officer of the Computer Science Department twice, and he has been a professor at Caltech since 1989. He also served as Chair of the Division of">K. Mani Chandy</a>  and <a href="" title="Jayadev Misra is an Indian-born computer scientist who has spent most of his professional career in the United States. He is the Schlumberger Centennial Chair Emeritus in computer science and a University Distinguished Teaching Professor Emeritus at the University of Texas at Austin.">J. Misra[9]</a>  proposed a different solution to the dining philosophers problem to allow for arbitrary agents (numbered P1, ..., Pn) to contend for an arbitrary number of resources, unlike Dijkstra's solution. It is also completely distributed and requires no central authority after initialization. However, it violates the requirement that "the philosophers do not speak to each other" (due to the request messages).</p>
+                    <ol>
+                        <li>For every pair of philosophers contending for a resource, create a fork and give it to the philosopher with the lower ID (n for agent Pn). Each fork can either be dirty or clean. Initially, all forks are dirty.</li>
+                        <li>When a philosopher wants to use a set of resources (i.e., eat), said philosopher must obtain the forks from their contending neighbors. For all such forks the philosopher does not have, they send a request message.</li>
+                        <li>When a philosopher with a fork receives a request message, they keep the fork if it is clean, but give it up when it is dirty. If the philosopher sends the fork over, they clean the fork before doing so.</li>
+                        <li>After a philosopher is done eating, all their forks become dirty. If another philosopher had previously requested one of the forks, the philosopher that has just finished eating cleans the fork and sends it.</li>
+                    </ol>
+                    <p>This solution also allows for a large degree of concurrency, and will solve an arbitrarily large problem.<br><br>
+
+                        It also solves the starvation problem. The clean/dirty labels act as a way of giving preference to the most "starved" processes, and a disadvantage to processes that have just "eaten". One could compare their solution to one where philosophers are not allowed to eat twice in a row without letting others use the forks in between. Chandy and Misra's solution is more flexible than that, but has an element tending in that direction.<br><br>
+                        
+                        In their analysis, they derive a system of preference levels from the distribution of the forks and their clean/dirty states. They show that this system may describe a <a href="" title="In mathematics, particularly graph theory, and computer science, a directed acyclic graph (DAG) is a directed graph with no directed cycles. That is, it consists of vertices and edges, with each edge directed from one vertex to another, such that following those directions will never form a close">directed acyclic graph</a> , and if so, the operations in their protocol cannot turn that graph into a cyclic one. This guarantees that deadlock cannot occur. However, if the system is initialized to a perfectly symmetric state, like all philosophers holding their left side forks, then the graph is cyclic at the outset, and their solution cannot prevent a deadlock. Initializing the system so that philosophers with lower IDs have dirty forks ensures the graph is initially acyclic.</p>
+
+                        <p><span style="font-size: large;"><b>See also</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+                        <hr/>
+                        <ul>
+                            <li> <a href="" title="The cigarette smokers problem is a concurrency problem in computer science, originally described in 1971 by Suhas Patil. The problem has been criticized for having restrictions which cannot be justified by practical considerations." style="text-decoration: none;">Cigarette smokers problem</a></li>
+                            <li> <a href="" title="In computing, the producer-consumer problem is a family of problems described by Edsger W. Dijkstra since 1965." style="text-decoration: none;">Producers-consumers problem</a> </li>
+                            <li><a href="" title="In computer science, the readers–writers problems are examples of a common computing problem in concurrency. There are at least three variations of the problems, which deal with situations in which many concurrent threads of execution try to access the same shared resource at one time." style="text-decoration: none;" >Readers-writers problem</a></li>
+                            <li><a href="" title="In computer science, the sleeping barber problem is a classic inter-process communication and synchronization problem that illustrates the complexities that arise when there are multiple operating system processes." style="text-decoration: none;">Sleeping barber problem</a> </li>
+                        </ul>
+                        <p><span style="font-size: large;"><b>References</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+                        <hr/>
+                        <ol>
+                            <li><a href=""  title="Edsger Wybe Dijkstra was a Dutch computer scientist, programmer, software engineer, and science essayist." style="text-decoration: none;"> Dijkstra, Edsger W. EWD-1000</a>(PDF). E.W. Dijkstra Archive. Center for American History,<a href="" title="The University of Texas at Austin is a public research university in Austin, Texas. It is the flagship institution of the University of Texas System. With 52,384 students as of Fall 2022, it is also the largest institution in the system." style="text-decoration: none;" > University of Texas at Austin. (transcription)</a></li>
+                            <li> J. Díaz; I. Ramos (1981).<a href="" title="" style="text-decoration:none ;">. Formalization of Programming Concepts: International Colloquium, Peniscola, Spain, April 19–25, 1981. Proceedings</a>Birkhäuser. pp.<a href="" style="text-decoration: none;">323 , 326. ISBN 978-3-540-10699-9.</a></li>
+                            <li>Hoare, C. A. R. (2004) [originally published in 1985 by Prentice Hall International]<a href="" style="text-decoration: none;">"Communicating Sequential Processes"</a>(PDF). usingcsp.com.</li>
+                            <li>anenbaum, Andrew S. (2006), Operating Systems - Design and Implementation, 3rd edition [Chapter: 2.3.1 The Dining Philosophers Problem], Pearson Education, Inc.</li>
+                            <li><a href="" style="text-decoration: none;" title="Edsger Wybe Dijkstra was a Dutch computer scientist, programmer, software engineer, and science essayist."> Dijkstra, Edsger W. EWD-310</a>(PDF). E.W. Dijkstra Archive. Center for American History,<a href="" style="text-decoration: none;" title="The University of Texas at Austin is a public research university in Austin, Texas. It is the flagship institution of the University of Texas System. With 52,384 students as of Fall 2022, it is also the largest institution in the system.">University of Texas at Austin. (transcription)</a></li>
+                            <li>Tanenbaum, Andrew S. (2006), Operating Systems - Design and Implementation, 3rd edition [Chapter: 2.3.1 The Dining Philosophers Problem], Pearson Education, Inc.</li>
+                            <li>Tanenbaum, Andrew S. (2006), Operating Systems - Design and Implementation, 3rd edition [Chapter: 3.3.5 Deadlock Prevention], Pearson Education, Inc.</li>
+                            <li> Stallings, William (2018)<a href="" style="text-decoration: none;"> Operating systems : internals and design principles </a>(9th ed.). Harlow, Essex, England:<a href="" title="Pearson plc is a British multinational publishing and education company headquartered in London, England. " style="text-decoration: none;">Pearson.</a>p. 310.<a href="" title="The International Standard Book Number (ISBN) is a numeric commercial book identifier that is intended to be unique. Publishers purchase or receive ISBNs from an affiliate of the International ISBN Agency." style="text-decoration: none;"> ISBN </a><a href="" title="" style="text-decoration: none;"> 978-1-292-21429-0. OCLC 1009868379.</a></li>
+                            <li>Chandy, K.M.; Misra, J. (1984)<a href="" title="" style="text-decoration: none;"> The Drinking Philosophers Problem</a>ACM Transactions on Programming Languages and Systems.</li>
+                        </ol>
+
+                        <!-- <h3>Bibliography </h3> -->
+                        <p><span style="font-size: large;"><b>Bibliography</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+                        <hr/>
+                        <ul>
+                            <li>Silberschatz, Abraham; Peterson, James L. (1988). Operating Systems Concepts. Addison-Wesley.<a href="" style="text-decoration: none;" title="The International Standard Book Number (ISBN) is a numeric commercial book identifier that is intended to be unique. Publishers purchase or receive ISBNs from an affiliate of the International ISBN Agency."> ISBN</a><a href="" style="text-decoration: none;">0-201-18760-4.</a></li>
+                            <li>Dijkstra, E. W. (1971, June)<a href="" style="text-decoration: none;"> Hierarchical ordering of sequential processes</a>Acta Informatica 1(2): 115–138.</li>
+                            <li>Lehmann, D. J., Rabin M. O, (1981). On the Advantages of Free Choice: A Symmetric and Fully Distributed Solution to the Dining Philosophers Problem. Principles Of Programming Languages 1981 (<a href="" style="text-decoration: none;" title="The annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL) is an academic conference in the field of computer science, with focus on fundamental principles in the design, definition, analysis, and implementation of programming languages, programming systems, and programming interfaces. The venue is jointly sponsored by two Special Interest Groups of the Association for Computing Machinery: SIGPLAN and SIGACT.">POPL</a>'81), pp. 133–138.</li>
+                        </ul>
+                        <p><span style="font-size: large;"><b>External links</b></span>  [<a href="" style="text-decoration: none;">edit</a>]</p>
+                        <hr/>
+                        <ul>
+                            <li><a href="" style="text-decoration: none;">Dining Philosophers Problem I</a></li>
+                            <li><a href="" style="text-decoration: none;">Dining Philosophers Problem II</a></li>
+                            <li><a href="" style="text-decoration: none;">Dining Philosophers Problem III</a></li>
+                            <li><a href="" style="text-decoration: none;">Discussion of the problem with solution code for 2 or 4 philosophers</a></li>
+                            <li><a href="" style="text-decoration: none;">Discussion of various solutions</a> at the<a href="" title="The Wayback Machine is a digital archive of the World Wide Web founded by the Internet Archive, a nonprofit based in San Francisco, California. Created in 1996 and launched to the public in 2001, it allows the user to go back in time and see how websites looked in the past. Its founders, Brewster Kahle and Bruce Gilliat, developed the Wayback Machine to provide universal access to all knowledge by preserving archived copies of defunct web pages." style="text-decoration: none;">Wayback Machine </a> (archived December 8, 2013)</li>
+                            <li><a href="" style="text-decoration: none;">Discussion of a solution using continuation based threads (cbthreads)</a>at the <a href="" title="The Wayback Machine is a digital archive of the World Wide Web founded by the Internet Archive, a nonprofit based in San Francisco, California. Created in 1996 and launched to the public in 2001, it allows the user to go back in time and see how websites looked in the past. Its founders, Brewster Kahle and Bruce Gilliat, developed the Wayback" style="text-decoration: none;"> Wayback Machine </a>(archived March 4, 2012)</li>
+                            <li><a href="" style="text-decoration: none;">Formal specification of the Chandy-Misra solution written in TLA+</a></li>
+                            <li><a href="" style="text-decoration: none;">Distributed symmetric solutions</a></li>
+                            <li><a href="" style="text-decoration: none;">Programming the Dining Philosophers with Simulation</a></li>
+                            <li><a href="" style="text-decoration: none;">Interactive example</a>of the Philosophers problem (<a href="" title="" style="text-decoration: none;">Java</a>required)</li>
+                            <li><a href="" title="" style="text-decoration: none ;">Satan Comes to Dinner</a></li>
+                            <li><a href="" style="text-decoration: none;">Wot No Chickens? </a>– <a href="" title="" style="text-decoration:none ; color: red; "> Peter H. Welch </a> proposed the Starving Philosophers variant that demonstrates an unfortunate consequence of the behaviour of Java thread monitors is to make <a href="" title="In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work. Starvation may be caused by errors in a scheduling or mutual exclusion algorithm, but can also be caused by resource leaks, and can be intentionally caused via a denial-of-service attack such as a fork bomb." style="text-decoration: none;">thread starvation</a>more likely than strictly necessary. </li>
+                            <li><a href="" style="text-decoration: none;">ThreadMentor</a></li>
+                            <li><a href="" style="text-decoration: none;"> Solving The Dining Philosophers Problem With Asynchronous Agents</a></li>
+                            <li><a href="" style="text-decoration: none;">Solution using Actors</a></li>
+                        </ul>
+
+        
+                        
+                </div>
+                 
+                
+       </div>
+       
+
+       
+
+        
+    </body>
+</html>
